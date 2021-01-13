@@ -49,6 +49,7 @@
     "onCommand:workbench.action.tasks.runTask",
     "onCommand:_typescript.configurePlugin",
     "onCommand:_typescript.learnMoreAboutRefactorings",
+    "onCommand:typescript.alertHintContent",
     "onCommand:typescript.fileReferences",
     "onLanguage:jsonc"
   ],
@@ -1028,6 +1029,11 @@
         "command": "typescript.findAllFileReferences",
         "title": "%typescript.findAllFileReferences%",
         "category": "TypeScript"
+      },
+      {
+        "command": "typescript.alertHintContent",
+        "title": "%typescript.alertHintContent%",
+        "category": "TypeScript"
       }
     ],
     "menus": {
@@ -1115,6 +1121,24 @@
         {
           "command": "typescript.findAllFileReferences",
           "when": "tsSupportsFileReferences && resourceLangId == typescriptreact"
+        }
+      ],
+      "inlineHints/context": [
+        {
+          "command": "typescript.alertHintContent",
+          "when": "resourceLangId == javascript"
+        },
+        {
+          "command": "typescript.alertHintContent",
+          "when": "resourceLangId == javascriptreact"
+        },
+        {
+          "command": "typescript.alertHintContent",
+          "when": "resourceLangId == typescript"
+        },
+        {
+          "command": "typescript.alertHintContent",
+          "when": "resourceLangId == typescriptreact"
         }
       ]
     },
