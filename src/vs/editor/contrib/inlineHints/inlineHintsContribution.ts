@@ -42,18 +42,35 @@ export class InlineHintsContribution extends Disposable implements IEditorContri
 			return;
 		}
 
-		const hoverOnInlineHints = [...mouseEvent.target.element?.classList.values() || []].find(className => className.startsWith('ced-inlineHints'));
+		const isInlineHintsClassName = (className: string | null | undefined) => !!className?.startsWith('ced-inlineHints');
+		const hoverOnInlineHints = [...mouseEvent.target.element?.classList.values() || []].find(isInlineHintsClassName);
 		if (!hoverOnInlineHints) {
 			return;
 		}
 
-		if (!mouseEvent.target.range) {
+		const mouseRange = mouseEvent.target.range;
+		if (!mouseRange) {
+			return;
+		}
+
+		const model = this._editor.getModel();
+		if (!model) {
+			return;
+		}
+
+		const decorations = model.getDecorationsInRange(mouseRange);
+		if (!decorations?.length) {
+			return;
+		}
+
+		const currentDecoration = decorations.find(decoration => isInlineHintsClassName(decoration.options.beforeContentClassName));
+		if (!currentDecoration) {
 			return;
 		}
 
 		const actions: IAction[] = [];
-		const actionsDisposable = createAndFillInContextMenuActions(this.menu, { arg: {}, shouldForwardArgs: false }, actions);
-		const anchor = { x: mouseEvent.event.posx - 1, width: 2, y: mouseEvent.event.posy - 1, height: 2 };
+		const actionsDisposable = createAndFillInContextMenuActions(this.menu, { arg: currentDecoration.range, shouldForwardArgs: false }, actions);
+		const anchor = { x: mouseEvent.event.posx, width: 0, y: mouseEvent.event.posy, height: 0 };
 		this._contextMenuService.showContextMenu({
 			getAnchor: () => anchor,
 			getActions: () => actions,
