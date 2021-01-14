@@ -14,7 +14,7 @@ import { OpenTsServerLogCommand } from './openTsServerLog';
 import { ReloadJavaScriptProjectsCommand, ReloadTypeScriptProjectsCommand } from './reloadProject';
 import { RestartTsServerCommand } from './restartTsServer';
 import { SelectTypeScriptVersionCommand } from './selectTypeScriptVersion';
-import { AlertHintContentCommand } from './AlertHintContent';
+import { AlertHintContentCommand } from './alertHintContent';
 
 export function registerBaseCommands(
 	commandManager: CommandManager,
