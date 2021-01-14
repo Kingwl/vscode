@@ -9,7 +9,7 @@ import { Command } from './commandManager';
 export class AlertHintContentCommand implements Command {
 	public readonly id = 'typescript.alertHintContent';
 
-	public execute(args: vscode.Range) {
+	public execute(args: any) {
 		vscode.window.showInformationMessage('foo' + JSON.stringify(args));
 	}
 }

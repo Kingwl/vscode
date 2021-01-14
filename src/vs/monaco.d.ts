@@ -6406,6 +6406,9 @@ declare namespace monaco.languages {
 	export interface InlineHint {
 		text: string;
 		range: IRange;
+		triggerPosition: IPosition;
+		prefix?: string;
+		postfix?: string;
 		whitespaceBefore?: boolean;
 		whitespaceAfter?: boolean;
 	}

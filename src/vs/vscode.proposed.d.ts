@@ -2001,6 +2001,18 @@ declare module 'vscode' {
 		 */
 		range: Range;
 		/**
+		 * The position of hint trigger.
+		 */
+		triggerPosition: Position;
+		/**
+		 * Prefix of hint text.
+		 */
+		prefix?: string;
+		/**
+		 * Postfix of hint text.
+		 */
+		postfix?: string;
+		/**
 		 * Whitespace before the hint.
 		 */
 		whitespaceBefore?: boolean;
@@ -2017,7 +2029,7 @@ declare module 'vscode' {
 		 * @param whitespaceBefore Whitespace before the hint.
 		 * @param whitespaceAfter TWhitespace after the hint.
 		 */
-		constructor(text: string, range: Range, whitespaceBefore?: boolean, whitespaceAfter?: boolean);
+		constructor(text: string, range: Range, triggerPosition: Position, prefix?: string, postfix?: string, whitespaceBefore?: boolean, whitespaceAfter?: boolean);
 	}
 
 	/**

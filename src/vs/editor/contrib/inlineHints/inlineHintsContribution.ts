@@ -2,8 +2,7 @@
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-import 'vs/editor/contrib/inlineHints/inlineHintsController';
-
+import { InlineHintsController } from 'vs/editor/contrib/inlineHints/inlineHintsController';
 import { Disposable, dispose } from 'vs/base/common/lifecycle';
 import { ICodeEditor, IEditorMouseEvent, MouseTargetType } from 'vs/editor/browser/editorBrowser';
 import { registerEditorContribution } from 'vs/editor/browser/editorExtensions';
@@ -13,6 +12,13 @@ import { IContextKeyService } from 'vs/platform/contextkey/common/contextkey';
 import { IAction } from 'vs/base/common/actions';
 import { IContextMenuService } from 'vs/platform/contextview/browser/contextView';
 import { createAndFillInContextMenuActions } from 'vs/platform/actions/browser/menuEntryActionViewItem';
+import { IPosition } from 'vs/editor/common/core/position';
+import { Range } from 'vs/editor/common/core/range';
+
+interface InlineHintsMenuCommandArgs {
+	range: Range;
+	triggerPosition: IPosition;
+}
 
 export class InlineHintsContribution extends Disposable implements IEditorContribution {
 
@@ -68,8 +74,23 @@ export class InlineHintsContribution extends Disposable implements IEditorContri
 			return;
 		}
 
+		const inlineHintsController = this._editor.getContribution<InlineHintsController>(InlineHintsController.ID);
+		if (!InlineHintsController) {
+			return;
+		}
+
+		const metadata = inlineHintsController.getMetadata(currentDecoration.id);
+		if (!metadata) {
+			return;
+		}
+
 		const actions: IAction[] = [];
-		const actionsDisposable = createAndFillInContextMenuActions(this.menu, { arg: currentDecoration.range, shouldForwardArgs: false }, actions);
+		const arg: InlineHintsMenuCommandArgs = {
+			range: currentDecoration.range,
+			triggerPosition: metadata.triggerPosition
+		};
+
+		const actionsDisposable = createAndFillInContextMenuActions(this.menu, { arg, shouldForwardArgs: false }, actions);
 		const anchor = { x: mouseEvent.event.posx, width: 0, y: mouseEvent.event.posy, height: 0 };
 		this._contextMenuService.showContextMenu({
 			getAnchor: () => anchor,

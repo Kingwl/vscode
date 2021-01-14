@@ -1287,8 +1287,13 @@ export interface ISignatureHelpContextDto {
 }
 
 export interface IInlineHintDto {
-	text: string
-	range: IRange
+	text: string;
+	range: IRange;
+	triggerPosition: IPosition;
+	prefix?: string;
+	postfix?: string;
+	whitespaceBefore?: boolean;
+	whitespaceAfter?: boolean;
 }
 
 export interface IInlineHintsDto {
