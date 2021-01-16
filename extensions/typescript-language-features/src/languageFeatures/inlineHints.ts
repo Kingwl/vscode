@@ -37,6 +37,8 @@ namespace ExperimentalProto {
 		triggerPosition: Proto.Location;
 		prefix?: string;
 		postfix?: string;
+		contextValue?: string;
+		hoverMessage?: string;
 		whitespaceBefore?: boolean;
 		whitespaceAfter?: boolean;
 	}
@@ -86,6 +88,8 @@ class TypeScriptInlineHintsProvider implements vscode.InlineHintsProvider {
 					Position.fromLocation(hint.triggerPosition),
 					hint.prefix,
 					hint.postfix,
+					hint.contextValue,
+					hint.hoverMessage,
 					hint.whitespaceBefore,
 					hint.whitespaceAfter
 				);

@@ -1027,6 +1027,8 @@ export namespace InlineHint {
 			triggerPosition: Position.from(hint.triggerPosition),
 			prefix: hint.prefix,
 			postfix: hint.postfix,
+			contextValue: hint.contextValue,
+			hoverMessage: hint.hoverMessage,
 			whitespaceBefore: hint.whitespaceBefore,
 			whitespaceAfter: hint.whitespaceAfter
 		};
@@ -1039,6 +1041,8 @@ export namespace InlineHint {
 			triggerPosition: Position.to(hint.triggerPosition),
 			prefix: hint.prefix,
 			postfix: hint.postfix,
+			contextValue: hint.contextValue,
+			hoverMessage: hint.hoverMessage,
 			whitespaceBefore: hint.whitespaceBefore,
 			whitespaceAfter: hint.whitespaceAfter
 		};

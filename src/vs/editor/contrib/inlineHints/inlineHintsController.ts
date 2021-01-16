@@ -22,6 +22,7 @@ import { IThemeService } from 'vs/platform/theme/common/themeService';
 import { Range } from 'vs/editor/common/core/range';
 import { LanguageFeatureRequestDelays } from 'vs/editor/common/modes/languageFeatureRegistry';
 import { IPosition } from 'vs/editor/common/core/position';
+import { MarkdownString } from 'vs/base/common/htmlContent';
 
 const MAX_DECORATORS = 500;
 
@@ -32,6 +33,7 @@ export interface InlineHintsData {
 
 export interface InlineHintsMetadata {
 	triggerPosition: IPosition;
+	contextValue?: string;
 }
 
 export function getInlineHints(model: ITextModel, ranges: Range[], token: CancellationToken): Promise<InlineHintsData[]> {
@@ -190,7 +192,7 @@ export class InlineHintsController extends Disposable implements IEditorContribu
 		for (let i = 0; i < hintsData.length; i++) {
 			const hint = hintsData[i].list;
 			for (let j = 0; j < hint.length && decorations.length < MAX_DECORATORS; j++) {
-				const { text, range, triggerPosition, prefix = '', postfix = '', whitespaceBefore, whitespaceAfter } = hint[j];
+				const { text, range, triggerPosition, prefix = '', postfix = '', contextValue, hoverMessage, whitespaceBefore, whitespaceAfter } = hint[j];
 				const marginBefore = whitespaceBefore ? fontSize / 3 : 0;
 				const marginAfter = whitespaceAfter ? fontSize / 3 : 0;
 
@@ -212,6 +214,11 @@ export class InlineHintsController extends Disposable implements IEditorContribu
 				}
 
 				newDecorationsTypes[key] = true;
+				const options = this._codeEditorService.resolveDecorationOptions(key, true);
+				if (hoverMessage) {
+					options.hoverMessage = new MarkdownString().appendText(hoverMessage);
+				}
+
 				decorations.push({
 					range: {
 						startLineNumber: range.startLineNumber,
@@ -219,10 +226,11 @@ export class InlineHintsController extends Disposable implements IEditorContribu
 						endLineNumber: range.endLineNumber,
 						endColumn: range.endColumn
 					},
-					options: this._codeEditorService.resolveDecorationOptions(key, true)
+					options
 				});
 				newHintsMetadats.push({
-					triggerPosition
+					triggerPosition,
+					contextValue
 				});
 			}
 		}
