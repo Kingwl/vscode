@@ -2057,10 +2057,6 @@ declare module 'vscode' {
 		 */
 		onDidChangeInlineHints?: Event<void>;
 		/**
-		 * An optional event to signal that the inline hints from this provider have changed.
-		 */
-		onDidChangeInlineHints?: Event<void>;
-		/**
 		 * @param model The document in which the command was invoked.
 		 * @param token A cancellation token.
 		 *
