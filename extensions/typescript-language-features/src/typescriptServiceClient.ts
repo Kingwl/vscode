@@ -30,25 +30,6 @@ import { TelemetryProperties, TelemetryReporter, VSCodeTelemetryReporter } from 
 import Tracer from './utils/tracer';
 import { inferredProjectCompilerOptions, ProjectType } from './utils/tsconfig';
 
-namespace ExperimentalProto {
-	export interface UserPreferences extends Proto.UserPreferences {
-		includeInlineParameterNameHints?: boolean;
-		includeInlineFunctionParameterTypeHints?: boolean;
-		includeInlineVariableTypeHints?: boolean;
-		includeInlineNonLiteralParameterNameHints?: boolean;
-		includeInlineDuplicatedParameterNameHints?: boolean;
-		includeInlineRequireAssignedVariableTypeHints?: boolean;
-		includeInlinePropertyDeclarationTypeHints?: boolean;
-		includeInlineFunctionLikeReturnTypeHints?: boolean;
-		includeInlineEnumMemberValueHints?: boolean;
-		includeInlineCallChainsHints?: boolean;
-	}
-
-	export interface ConfigureRequestArguments extends Proto.ConfigureRequestArguments {
-		preferences?: UserPreferences;
-	}
-}
-
 const localize = nls.loadMessageBundle();
 
 export interface TsDiagnostics {
@@ -548,22 +529,12 @@ export default class TypeScriptServiceClient extends Disposable implements IType
 			? this.configuration.watchOptions
 			: undefined;
 
-		const configureOptions: ExperimentalProto.ConfigureRequestArguments = {
+		const configureOptions: Proto.ConfigureRequestArguments = {
 			hostInfo: 'vscode',
 			preferences: {
 				providePrefixAndSuffixTextForRename: true,
 				allowRenameOfImportPath: true,
-				includePackageJsonAutoImports: this._configuration.includePackageJsonAutoImports,
-				includeInlineParameterNameHints: this._configuration.includeInlineParameterNameHints,
-				includeInlineFunctionParameterTypeHints: this._configuration.includeInlineFunctionParameterTypeHints,
-				includeInlineVariableTypeHints: this._configuration.includeInlineVariableTypeHints,
-				includeInlineNonLiteralParameterNameHints: this._configuration.includeInlineNonLiteralParameterNameHints,
-				includeInlineDuplicatedParameterNameHints: this._configuration.includeInlineDuplicatedParameterNameHints,
-				includeInlineRequireAssignedVariableTypeHints: this._configuration.includeInlineRequireAssignedVariableTypeHints,
-				includeInlinePropertyDeclarationTypeHints: this._configuration.includeInlinePropertyDeclarationTypeHints,
-				includeInlineFunctionLikeReturnTypeHints: this._configuration.includeInlineFunctionLikeReturnTypeHints,
-				includeInlineEnumMemberValueHints: this._configuration.includeInlineEnumMemberValueHints,
-				includeInlineCallChainsHints: this._configuration.includeInlineCallChainsHints
+				includePackageJsonAutoImports: this._configuration.includePackageJsonAutoImports
 			},
 			watchOptions
 		};

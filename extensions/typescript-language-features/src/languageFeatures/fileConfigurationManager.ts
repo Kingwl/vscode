@@ -13,21 +13,6 @@ import { isTypeScriptDocument } from '../utils/languageModeIds';
 import { equals } from '../utils/objects';
 import { ResourceMap } from '../utils/resourceMap';
 
-namespace ExperimentalProto {
-	export interface UserPreferences extends Proto.UserPreferences {
-		includeInlineParameterNameHints?: boolean;
-		includeInlineFunctionParameterTypeHints?: boolean;
-		includeInlineVariableTypeHints?: boolean;
-		includeInlineNonLiteralParameterNameHints?: boolean;
-		includeInlineDuplicatedParameterNameHints?: boolean;
-		includeInlineRequireAssignedVariableTypeHints?: boolean;
-		includeInlinePropertyDeclarationTypeHints?: boolean;
-		includeInlineFunctionLikeReturnTypeHints?: boolean;
-		includeInlineEnumMemberValueHints?: boolean;
-		includeInlineCallChainsHints?: boolean;
-	}
-}
-
 interface FileConfiguration {
 	readonly formatOptions: Proto.FormatCodeSettings;
 	readonly preferences: Proto.UserPreferences;
@@ -188,7 +173,7 @@ export default class FileConfigurationManager extends Disposable {
 			isTypeScriptDocument(document) ? 'typescript.preferences' : 'javascript.preferences',
 			document.uri);
 
-		const preferences: ExperimentalProto.UserPreferences = {
+		const preferences: Proto.UserPreferences = {
 			quotePreference: this.getQuoteStylePreference(preferencesConfig),
 			// @ts-expect-error until TypeScript 4.2 API
 			importModuleSpecifierPreference: getImportModuleSpecifierPreference(preferencesConfig),
@@ -197,17 +182,7 @@ export default class FileConfigurationManager extends Disposable {
 			providePrefixAndSuffixTextForRename: preferencesConfig.get<boolean>('renameShorthandProperties', true) === false ? false : preferencesConfig.get<boolean>('useAliasesForRenames', true),
 			allowRenameOfImportPath: true,
 			includeAutomaticOptionalChainCompletions: config.get<boolean>('suggest.includeAutomaticOptionalChainCompletions', true),
-			provideRefactorNotApplicableReason: true,
-			includeInlineParameterNameHints: config.get<boolean>('inlineHints.includeInlineParameterName', true),
-			includeInlineFunctionParameterTypeHints: config.get<boolean>('inlineHints.includeInlineFunctionParameterType', true),
-			includeInlineVariableTypeHints: config.get<boolean>('inlineHints.includeInlineVariableType', true),
-			includeInlineNonLiteralParameterNameHints: config.get<boolean>('inlineHints.includeInlineNonLiteralParameterName', true),
-			includeInlineDuplicatedParameterNameHints: config.get<boolean>('inlineHints.includeInlineDuplicatedParameterName', true),
-			includeInlineRequireAssignedVariableTypeHints: config.get<boolean>('inlineHints.includeInlineRequireAssignedVariableType', true),
-			includeInlinePropertyDeclarationTypeHints: config.get<boolean>('inlineHints.includeInlinePropertyDeclarationType', true),
-			includeInlineFunctionLikeReturnTypeHints: config.get<boolean>('inlineHints.includeInlineFunctionLikeReturnType', true),
-			includeInlineEnumMemberValueHints: config.get<boolean>('inlineHints.includeInlineEnumMemberValue', true),
-			includeInlineCallChainsHints: config.get<boolean>('inlineHints.includeInlineCallChainsHints', true)
+			provideRefactorNotApplicableReason: true
 		};
 
 		return preferences;

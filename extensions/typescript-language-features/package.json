@@ -258,67 +258,6 @@
           "description": "%configuration.suggest.includeAutomaticOptionalChainCompletions%",
           "scope": "resource"
         },
-        "typescript.inlineHints.includeInlineParameterNameHints": {
-          "type": "boolean",
-          "default": true,
-          "description": "%configuration.inlineHints.includeInlineParameterNameHints%",
-          "scope": "resource"
-        },
-        "typescript.inlineHints.includeInlineFunctionParameterTypeHints": {
-          "type": "boolean",
-          "default": true,
-          "description": "%configuration.inlineHints.includeInlineFunctionParameterTypeHints%",
-          "scope": "resource"
-        },
-        "typescript.inlineHints.includeInlineVariableTypeHints": {
-          "type": "boolean",
-          "default": false,
-          "description": "%configuration.inlineHints.includeInlineVariableTypeHints%",
-          "scope": "resource"
-        },
-        "typescript.inlineHints.includeInlineNonLiteralParameterNameHints": {
-          "type": "boolean",
-          "default": false,
-          "description": "%configuration.inlineHints.includeInlineNonLiteralParameterNameHints%",
-          "scope": "resource"
-        },
-        "typescript.inlineHints.includeInlineDuplicatedParameterNameHints": {
-          "type": "boolean",
-          "default": false,
-          "description": "%configuration.inlineHints.includeInlineDuplicatedParameterNameHints%",
-          "scope": "resource"
-        },
-        "typescript.inlineHints.includeInlineRequireAssignedVariableTypeHints": {
-          "type": "boolean",
-          "default": false,
-          "description": "%configuration.inlineHints.includeInlineRequireAssignedVariableTypeHints%",
-          "scope": "resource"
-        },
-        "typescript.inlineHints.includeInlinePropertyDeclarationTypeHints": {
-          "type": "boolean",
-          "default": false,
-          "description": "%configuration.inlineHints.includeInlinePropertyDeclarationTypeHints%",
-          "scope": "resource"
-        },
-        "typescript.inlineHints.includeInlineFunctionLikeReturnTypeHints": {
-          "type": "boolean",
-          "default": false,
-          "description": "%configuration.inlineHints.includeInlineFunctionLikeReturnTypeHints%",
-          "scope": "resource"
-        },
-        "typescript.inlineHints.includeInlineEnumMemberValueHints": {
-          "type": "boolean",
-          "default": true,
-          "description": "%configuration.inlineHints.includeInlineEnumMemberValueHints%",
-          "scope": "resource"
-        },
-        "typescript.inlineHints.includeInlineCallChainsHints": {
-          "type": "boolean",
-          "default": false,
-          "description": "%configuration.inlineHints.includeInlineCallChainsHints%",
-          "scope": "resource"
-        },
-
         "typescript.reportStyleChecksAsWarnings": {
           "type": "boolean",
           "default": true,
