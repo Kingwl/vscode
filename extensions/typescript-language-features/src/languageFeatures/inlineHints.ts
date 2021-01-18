@@ -8,7 +8,7 @@ import * as Proto from '../protocol';
 import { DocumentSelector } from '../utils/documentSelector';
 import { ClientCapability, ITypeScriptServiceClient, ServerResponse, ExecConfig } from '../typescriptService';
 import { conditionalRegistration, requireSomeCapability } from '../utils/dependentRegistration';
-import { Position, Range } from '../utils/typeConverters';
+import { Range } from '../utils/typeConverters';
 
 namespace ExperimentalProto {
 	export const enum CommandTypes {
@@ -34,11 +34,6 @@ namespace ExperimentalProto {
 	interface HintItem {
 		text: string;
 		range: Proto.TextSpan;
-		triggerPosition: Proto.Location;
-		prefix?: string;
-		postfix?: string;
-		contextValue?: string;
-		hoverMessage?: string;
 		whitespaceBefore?: boolean;
 		whitespaceAfter?: boolean;
 	}
@@ -66,9 +61,6 @@ class TypeScriptInlineHintsProvider implements vscode.InlineHintsProvider {
 		private readonly client: ITypeScriptServiceClient
 	) { }
 
-	private readonly _onDidChangeInlineHints = new vscode.EventEmitter<void>();
-	readonly onDidChangeInlineHints = this._onDidChangeInlineHints.event;
-
 	async provideInlineHints(model: vscode.TextDocument, range: vscode.Range, token: vscode.CancellationToken): Promise<vscode.InlineHint[]> {
 		const filepath = this.client.toOpenedFilePath(model);
 		if (!filepath) {
@@ -85,17 +77,7 @@ class TypeScriptInlineHintsProvider implements vscode.InlineHintsProvider {
 			}
 
 			return response.body.map(hint => {
-				return new vscode.InlineHint(
-					hint.text,
-					Range.fromTextSpan(hint.range),
-					Position.fromLocation(hint.triggerPosition),
-					hint.prefix,
-					hint.postfix,
-					hint.contextValue,
-					hint.hoverMessage,
-					hint.whitespaceBefore,
-					hint.whitespaceAfter
-				);
+				return new vscode.InlineHint(hint.text, Range.fromTextSpan(hint.range), hint.whitespaceBefore, hint.whitespaceAfter);
 			});
 		} catch (e) {
 			return [];
