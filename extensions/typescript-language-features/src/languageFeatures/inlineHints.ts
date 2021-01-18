@@ -66,6 +66,9 @@ class TypeScriptInlineHintsProvider implements vscode.InlineHintsProvider {
 		private readonly client: ITypeScriptServiceClient
 	) { }
 
+	private readonly _onDidChangeInlineHints = new vscode.EventEmitter<void>();
+	readonly onDidChangeInlineHints = this._onDidChangeInlineHints.event;
+
 	async provideInlineHints(model: vscode.TextDocument, range: vscode.Range, token: vscode.CancellationToken): Promise<vscode.InlineHint[]> {
 		const filepath = this.client.toOpenedFilePath(model);
 		if (!filepath) {

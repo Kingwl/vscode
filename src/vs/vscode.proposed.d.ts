@@ -2050,6 +2050,12 @@ declare module 'vscode' {
 	 * the inline hints feature.
 	 */
 	export interface InlineHintsProvider {
+
+		/**
+		 * An optional event to signal that inline hints have changed.
+		 * @see [EventEmitter](#EventEmitter)
+		 */
+		onDidChangeInlineHints?: Event<void>;
 		/**
 		 * An optional event to signal that the inline hints from this provider have changed.
 		 */

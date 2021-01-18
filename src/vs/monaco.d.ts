@@ -6416,6 +6416,7 @@ declare namespace monaco.languages {
 	}
 
 	export interface InlineHintsProvider {
+		onDidChangeInlineHints?: IEvent<void> | undefined;
 		provideInlineHints(model: editor.ITextModel, range: Range, token: CancellationToken): ProviderResult<InlineHint[]>;
 	}
 

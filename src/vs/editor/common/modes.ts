@@ -1672,6 +1672,7 @@ export interface InlineHint {
 }
 
 export interface InlineHintsProvider {
+	onDidChangeInlineHints?: Event<void> | undefined;
 	provideInlineHints(model: model.ITextModel, range: Range, token: CancellationToken): ProviderResult<InlineHint[]>;
 }
 

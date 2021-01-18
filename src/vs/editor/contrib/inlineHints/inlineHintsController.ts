@@ -6,7 +6,7 @@
 import { CancelablePromise, createCancelablePromise, RunOnceScheduler } from 'vs/base/common/async';
 import { onUnexpectedError } from 'vs/base/common/errors';
 import { hash } from 'vs/base/common/hash';
-import { Disposable, DisposableStore } from 'vs/base/common/lifecycle';
+import { Disposable, DisposableStore, dispose, IDisposable } from 'vs/base/common/lifecycle';
 import { ICodeEditor } from 'vs/editor/browser/editorBrowser';
 import { registerEditorContribution } from 'vs/editor/browser/editorExtensions';
 import { ICodeEditorService } from 'vs/editor/browser/services/codeEditorService';
@@ -61,6 +61,8 @@ export class InlineHintsController extends Disposable implements IEditorContribu
 	private _getInlineHintsPromise: CancelablePromise<InlineHintsData[]> | undefined;
 	private readonly _getInlineHintsDelays = new LanguageFeatureRequestDelays(InlineHintsProviderRegistry, 250, 2500);
 
+	private _inlineHintsProvidersChangeListeners: IDisposable[] = [];
+
 	constructor(private readonly _editor: ICodeEditor,
 		@ICodeEditorService private readonly _codeEditorService: ICodeEditorService,
 		@IThemeService private readonly _themeService: IThemeService,
@@ -72,10 +74,8 @@ export class InlineHintsController extends Disposable implements IEditorContribu
 		}));
 		this._register(_editor.onDidChangeModelLanguage(() => this._onModelChanged()));
 		this._register(InlineHintsProviderRegistry.onDidChange(() => this._onModelChanged()));
-		this._register(_editor.onDidChangeConfiguration(() => {
-			let prevIsEnabled = this._isEnabled;
-			this._isEnabled = this.isEnabled();
-			if (prevIsEnabled !== this._isEnabled) {
+		this._register(_editor.onDidChangeConfiguration((e) => {
+			if (e.hasChanged(EditorOption.inlineHints)) {
 				if (this._isEnabled) {
 					this._onModelChanged();
 				} else {
@@ -148,6 +148,17 @@ export class InlineHintsController extends Disposable implements IEditorContribu
 		}, this._getInlineHintsDelays.get(model));
 
 		this._localToDispose.add(scheduler);
+
+		const bindInlineHintsChangeListeners = () => {
+			dispose(this._inlineHintsProvidersChangeListeners);
+			this._inlineHintsProvidersChangeListeners = [];
+			for (const provider of InlineHintsProviderRegistry.all(model)) {
+				if (typeof provider.onDidChangeInlineHints === 'function') {
+					this._inlineHintsProvidersChangeListeners.push(provider.onDidChangeInlineHints(() => scheduler.schedule()));
+				}
+			}
+		};
+		bindInlineHintsChangeListeners();
 		this._localToDispose.add(this._editor.onDidChangeModelContent(() => {
 			scheduler.schedule();
 		}));
