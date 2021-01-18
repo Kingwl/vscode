@@ -14,7 +14,6 @@ import { OpenTsServerLogCommand } from './openTsServerLog';
 import { ReloadJavaScriptProjectsCommand, ReloadTypeScriptProjectsCommand } from './reloadProject';
 import { RestartTsServerCommand } from './restartTsServer';
 import { SelectTypeScriptVersionCommand } from './selectTypeScriptVersion';
-import { AlertHintContentCommand } from './alertHintContent';
 
 export function registerBaseCommands(
 	commandManager: CommandManager,
@@ -30,5 +29,4 @@ export function registerBaseCommands(
 	commandManager.register(new JavaScriptGoToProjectConfigCommand(lazyClientHost));
 	commandManager.register(new ConfigurePluginCommand(pluginManager));
 	commandManager.register(new LearnMoreAboutRefactoringsCommand());
-	commandManager.register(new AlertHintContentCommand());
 }
